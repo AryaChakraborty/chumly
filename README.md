@@ -8,23 +8,34 @@
 
 To use this project, follow these steps:
 
+### clone the repository
 ```bash
-# Clone the repository
 git clone https://github.com/AryaChakraborty/chumly.git
+```
 
-# Navigate to the project directory
+### Navigate to the project directory
+```bash
 cd chumly
+```
 
-# create a virtual environment
+### create a virtual environment
+```bash
 conda create --name chumly_env python=3.11.3
+```
 
-echo "replace the 3.11.3 with your python version"
+**note -** replace the 3.11.3 with your python version
 
-# activate the virtual environment
+### activate the virtual environment
+```bash
 conda activate chumly_env
+```
 
-# Install dependencies
+### Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
-# Run the project
+### Run the project
+```bash
 python main.py
+```
