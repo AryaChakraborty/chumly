@@ -30,8 +30,8 @@ logger.addHandler(file_handler)
 def configure() :
     load_dotenv("venv/.env")
 
-url = os.getenv('url')
-gdsc_client_url = os.getenv('gdsc_client_url')
+url = "mongodb+srv://mlteam:"+str(os.getenv('gdsc_client_url'))+".mongodb.net/?retryWrites=true&w=majority"
+gdsc_client_url = "mongodb+srv://mlteam:"+str(os.getenv('gdsc_client_url'))+".mongodb.net/?retryWrites=true&w=majority"
 # all projects, events, and blogs
 def all_gdsc(db_name, db_attribute) :
     client = pym.MongoClient(gdsc_client_url)
@@ -195,20 +195,26 @@ def predict_output(keyword, specification_list) :
 
 # database functions
 def store_context(userID="123", context="DSC") :
-    client = pym.MongoClient(url) # client
-    db = client["chatbot_database"] # database
-    collection = db["first_collection"] # collection
-    db_dict = {"chatID" : userID, "context" : context}
-    if collection.count_documents({"chatID": userID}) > 0 :
-        collection.update_one({"chatID": userID}, {"$set": {"context": context}})
-    else :
-        collection.insert_one(db_dict)
+    try :
+        client = pym.MongoClient(url) # client
+        db = client["chatbot_database"] # database
+        collection = db["first_collection"] # collection
+        db_dict = {"chatID" : userID, "context" : context}
+        if collection.count_documents({"chatID": userID}) > 0 :
+            collection.update_one({"chatID": userID}, {"$set": {"context": context}})
+        else :
+            collection.insert_one(db_dict)
+    except :
+        pass
 def get_context(userID="123") :
-    client = pym.MongoClient(url)  # client
-    db = client["chatbot_database"]  # database
-    collection = db["first_collection"]  # collection
-    found = collection.find_one({"chatID" : userID})
-    return found["context"]
+    try:
+        client = pym.MongoClient(url)  # client
+        db = client["chatbot_database"]  # database
+        collection = db["first_collection"]  # collection
+        found = collection.find_one({"chatID" : userID})
+        return found["context"]
+    except :
+        return "gdsc kgec"
 
 def chatbot_response(text, uid):
     try :
@@ -263,7 +269,7 @@ def default():
   }
   return value_to_be_returned
   
-@app.route('/reply', methods=['POST'])
+@app.route('/reply', methods=['POST', 'GET'])
 def reply_to_text():
     if request.method == 'POST':
         data = request.json
@@ -305,4 +311,5 @@ def reply_to_text():
 
 if __name__ == '__main__':
     configure()
+    # print('clent url ->', "mongodb+srv://mlteam:"+str(os.getenv('gdsc_client_url'))+".mongodb.net/?retryWrites=true&w=majority")
     app.run(debug=True)
