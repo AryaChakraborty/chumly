@@ -311,5 +311,5 @@ def reply_to_text():
 
 if __name__ == '__main__':
     configure()
-    # print('clent url ->', "mongodb+srv://mlteam:"+str(os.getenv('gdsc_client_url'))+".mongodb.net/?retryWrites=true&w=majority")
+    print('client url ->', "mongodb+srv://mlteam:"+str(os.getenv('gdsc_client_url'))+".mongodb.net/?retryWrites=true&w=majority")
     app.run(debug=True)
